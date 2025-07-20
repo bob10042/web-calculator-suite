@@ -1,20 +1,18 @@
 name: Claude Code Web Development Integration
 
 on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
   issues:
     types: [opened, edited]
   issue_comment:
     types: [created, edited]
+  pull_request:
+    types: [opened, edited, synchronize]
 
 jobs:
-  claude-web-analysis:
+  claude-code:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       issues: write
       pull-requests: write
       
@@ -29,73 +27,8 @@ jobs:
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
         
-    - name: Claude Code GitHub Integration
-      uses: nicholaslee119/claude-code-github-action@0.1.1
+    - name: Claude Code Integration
+      uses: anthropics/claude-code-action@v1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
-        
-    - name: Install backend dependencies
-      run: |
-        if [ -f "backend/package.json" ]; then
-          cd backend && npm ci
-        fi
-        
-    - name: Install agent dependencies
-      run: |
-        if [ -f "agents/package.json" ]; then
-          cd agents && npm ci
-        fi
-        
-    - name: Install database dependencies
-      run: |
-        if [ -f "database/package.json" ]; then
-          cd database && npm ci
-        fi
-        
-    - name: Run backend tests
-      run: |
-        if [ -f "backend/package.json" ]; then
-          cd backend && npm test || echo "No tests configured"
-        fi
-        
-    - name: Run database tests
-      run: |
-        if [ -f "database/package.json" ]; then
-          cd database && npm test || echo "No database tests configured"
-        fi
-        
-    - name: Frontend code analysis
-      run: |
-        echo "Analyzing frontend code..."
-        find frontend -name "*.html" -o -name "*.css" -o -name "*.js" | head -10
-        
-    - name: Security audit
-      run: |
-        if [ -f "backend/package.json" ]; then
-          cd backend && npm audit --audit-level=moderate || echo "Security audit completed with warnings"
-        fi
-        
-  claude-web-review:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    permissions:
-      contents: read
-      pull-requests: write
-      
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        
-    - name: Claude Web Code Review
-      uses: nicholaslee119/claude-code-github-action@0.1.1
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
-        mode: 'review'
-        language: 'javascript'
+        anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
