@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Web Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calculator"></i> Advanced Web Calculator</h1>
+            <nav>
+                <button id="themeToggle" class="nav-btn">
+                    <i class="fas fa-moon"></i> Dark Mode
+                </button>
+                <button id="historyToggle" class="nav-btn">
+                    <i class="fas fa-history"></i> History
+                </button>
+                <button id="terminalBtn" class="nav-btn">
+                    <i class="fas fa-terminal"></i> Console
+                </button>
+                <button id="aboutBtn" class="nav-btn">
+                    <i class="fas fa-info-circle"></i> About
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <div class="calculator-container">
+                <div class="calculator">
+                    <div class="display-section">
+                        <div class="memory-indicator" id="memoryIndicator">M</div>
+                        <div class="display" id="display">0</div>
+                        <div class="operation-display" id="operationDisplay"></div>
+                    </div>
+
+                    <div class="button-grid">
+                        <!-- Scientific Functions Row -->
+                        <button class="btn scientific" data-action="sin">sin</button>
+                        <button class="btn scientific" data-action="cos">cos</button>
+                        <button class="btn scientific" data-action="tan">tan</button>
+                        <button class="btn scientific" data-action="sqrt">√</button>
+
+                        <!-- Power & Electrical Functions Row -->
+                        <button class="btn electrical" data-action="power">x^y</button>
+                        <button class="btn electrical" data-action="threephase">3Φ</button>
+                        <button class="btn scientific" data-action="log">log</button>
+                        <button class="btn scientific" data-action="ln">ln</button>
+
+                        <!-- Memory Functions Row -->
+                        <button class="btn memory" data-action="mc">MC</button>
+                        <button class="btn memory" data-action="mr">MR</button>
+                        <button class="btn memory" data-action="ms">MS</button>
+                        <button class="btn memory" data-action="mplus">M+</button>
+
+                        <!-- Control Functions Row -->
+                        <button class="btn control" data-action="clear">C</button>
+                        <button class="btn control" data-action="clearEntry">CE</button>
+                        <button class="btn control" data-action="backspace">⌫</button>
+                        <button class="btn operator" data-action="divide">÷</button>
+
+                        <!-- Number Rows -->
+                        <button class="btn number" data-number="7">7</button>
+                        <button class="btn number" data-number="8">8</button>
+                        <button class="btn number" data-number="9">9</button>
+                        <button class="btn operator" data-action="multiply">×</button>
+
+                        <button class="btn number" data-number="4">4</button>
+                        <button class="btn number" data-number="5">5</button>
+                        <button class="btn number" data-number="6">6</button>
+                        <button class="btn operator" data-action="subtract">-</button>
+
+                        <button class="btn number" data-number="1">1</button>
+                        <button class="btn number" data-number="2">2</button>
+                        <button class="btn number" data-number="3">3</button>
+                        <button class="btn operator" data-action="add">+</button>
+
+                        <button class="btn control" data-action="plusMinus">±</button>
+                        <button class="btn number" data-number="0">0</button>
+                        <button class="btn number" data-action="decimal">.</button>
+                        <button class="btn equals" data-action="equals">=</button>
+                    </div>
+                </div>
+
+                <div class="history-panel" id="historyPanel">
+                    <h3><i class="fas fa-history"></i> Calculation History</h3>
+                    <div class="history-list" id="historyList">
+                        <p class="no-history">No calculations yet</p>
+                    </div>
+                    <div class="history-controls">
+                        <button id="clearHistory" class="btn control small">
+                            <i class="fas fa-trash"></i> Clear History
+                        </button>
+                        <button id="exportHistory" class="btn control small">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-section">
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Responsive Design</h3>
+                    <p>Works perfectly on desktop, tablet, and mobile devices</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>Scientific Functions</h3>
+                    <p>Advanced mathematical operations including trigonometry</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-memory"></i>
+                    <h3>Memory Operations</h3>
+                    <p>Store, recall, and manipulate values in memory</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-history"></i>
+                    <h3>Calculation History</h3>
+                    <p>Keep track of all your calculations with export functionality</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-terminal"></i>
+                    <h3>Programmable Console</h3>
+                    <p>Advanced programming interface with Python and physics constants</p>
+                </div>
+            </div>
+
+            <!-- Programming Terminal Modal -->
+            <div id="terminalModal" class="modal">
+                <div class="modal-content terminal-modal">
+                    <span class="close terminal-close">&times;</span>
+                    <div class="terminal-header">
+                        <h3><i class="fas fa-terminal"></i> Scientific Programming Console</h3>
+                        <div class="terminal-controls">
+                            <button id="clearTerminal" class="btn control small">Clear</button>
+                            <button id="terminalHelp" class="btn control small">Help</button>
+                            <button id="physicsConstants" class="btn control small">Constants</button>
+                        </div>
+                    </div>
+                    <div class="terminal-container">
+                        <div id="terminalOutput" class="terminal-output"></div>
+                        <div class="terminal-input-line">
+                            <span class="terminal-prompt">>>> </span>
+                            <input type="text" id="terminalInput" class="terminal-input" placeholder="Type commands, expressions, or 'help'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Advanced Web Calculator | Built with HTML, CSS, and JavaScript</p>
+        </footer>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-info-circle"></i> About Advanced Web Calculator</h2>
+            <p>A feature-rich web calculator built with modern web technologies.</p>
+            <h3>Features:</h3>
+            <ul>
+                <li>Basic arithmetic operations (+, -, ×, ÷)</li>
+                <li>Scientific functions (sin, cos, tan, √)</li>
+                <li>Electrical engineering (3-phase power, impedance)</li>
+                <li>Physics constants and calculations</li>
+                <li>Programmable console with variable storage</li>
+                <li>Memory operations (MC, MR, MS, M+)</li>
+                <li>Calculation history with export</li>
+                <li>Dark/Light theme toggle</li>
+                <li>Responsive design for all devices</li>
+                <li>Keyboard support</li>
+            </ul>
+            <p><strong>Version:</strong> 1.0.0</p>
+            <p><strong>Technologies:</strong> HTML5, CSS3, JavaScript ES6+</p>
+        </div>
+    </div>
+
+    <script src="calculator.js"></script>
+</body>
+</html>

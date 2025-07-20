@@ -1,0 +1,26 @@
+{
+  "name": "calculator-database",
+  "version": "1.0.0",
+  "description": "Database layer for Advanced Web Calculator",
+  "main": "database.js",
+  "scripts": {
+    "init": "node init-db.js",
+    "test": "node test-db.js",
+    "backup": "node backup.js",
+    "migrate": "node migrate.js"
+  },
+  "keywords": [
+    "database",
+    "sqlite",
+    "calculator",
+    "orm"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
